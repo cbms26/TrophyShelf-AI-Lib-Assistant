@@ -18,7 +18,7 @@ The UI (bubble, chat sheet, on-device history) lives in the app repo:
 
 ## API contract
 
-`POST /api/chat` with header `x-trophyshelf-client: mobile/<version>`:
+`POST /api/chat` with header `x-trophyshelf-client: mobile/<version>` (app) or `web/<version>` (PWA). Browser calls also need their origin in `ALLOWED_ORIGINS` (CORS; `OPTIONS` preflight is handled):
 
 ```json
 {
@@ -72,6 +72,7 @@ curl -N -X POST http://localhost:3100/api/chat \
 | `GEMINI_MODEL` | no | defaults to `gemini-3.5-flash` |
 | `GOOGLE_BOOKS_API_KEY` | yes (prod) | Google Cloud key restricted to the Books API. The keyless shared quota is routinely exhausted. |
 | `UPSTASH_REDIS_REST_URL` / `_TOKEN` | yes (prod) | unset = rate limiting disabled |
+| `ALLOWED_ORIGINS` | no | comma-separated browser origins for CORS; defaults to `https://trophyshelf.vercel.app` |
 
 ## Deploy
 

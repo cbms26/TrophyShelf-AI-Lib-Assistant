@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { guardRequest } from "@/lib/apiGuard";
+import { corsHeaders, withCors } from "@/lib/cors";
 import { streamReply } from "@/lib/gemini";
 import type { ChatEvent, ChatMessage, ShelfBook } from "@/lib/types";
 
@@ -49,7 +50,16 @@ function parseMessages(raw: unknown): ChatMessage[] {
   return msgs;
 }
 
+// Browser preflight for the PWA (see lib/cors.ts).
+export function OPTIONS(req: Request) {
+  return new Response(null, { status: 204, headers: corsHeaders(req) });
+}
+
 export async function POST(req: Request) {
+  return withCors(req, await handleChat(req));
+}
+
+async function handleChat(req: Request): Promise<Response> {
   const blocked = await guardRequest(req);
   if (blocked) return blocked;
 
