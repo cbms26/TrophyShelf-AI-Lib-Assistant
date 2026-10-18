@@ -38,10 +38,34 @@ export function normalizeTitle(title: string): string {
     .trim();
 }
 
+// Field operators (inauthor:, intitle:, subject:) sometimes return zero
+// results from the Books API even for well-known authors; plain keywords
+// are far more reliable.
+function stripOperators(query: string): string {
+  return query
+    .replace(/\b(inauthor|intitle|subject|inpublisher|isbn):/gi, "")
+    .replace(/["']/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export async function searchBooks(
   query: string,
   shelf: ShelfBook[],
   maxResults = 6
+): Promise<BookHit[]> {
+  const hits = await searchOnce(query, shelf, maxResults);
+  const plain = stripOperators(query);
+  if (hits.length === 0 && plain && plain !== query) {
+    return searchOnce(plain, shelf, maxResults);
+  }
+  return hits;
+}
+
+async function searchOnce(
+  query: string,
+  shelf: ShelfBook[],
+  maxResults: number
 ): Promise<BookHit[]> {
   const params = new URLSearchParams({
     q: query,

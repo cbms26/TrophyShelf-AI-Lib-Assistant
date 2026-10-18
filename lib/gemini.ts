@@ -24,7 +24,7 @@ const MAX_TOOL_ROUNDS = 3;
 const searchBooksTool: FunctionDeclaration = {
   name: "search_books",
   description:
-    "Search Google Books for real books to recommend. Books already on the reader's shelf are filtered out automatically. Use Google Books query syntax when helpful, e.g. 'subject:fantasy', 'inauthor:\"Ursula K. Le Guin\"', or plain theme keywords like 'found family space opera'.",
+    "Search Google Books for real books to recommend. Books already on the reader's shelf are filtered out automatically. Use plain keywords — an author name ('ursula k le guin'), a genre plus theme ('space survival science fiction'), or a similar title. Avoid search operators like inauthor: or intitle:.",
   parameters: {
     type: Type.OBJECT,
     properties: {

@@ -77,5 +77,5 @@ curl -N -X POST http://localhost:3100/api/chat \
 
 1. Push this repo to GitHub (`trophyshelf-librarian`).
 2. Import it as a new Vercel project; add the env vars above.
-3. The app's default `LIBRARIAN_API_URL` is `https://trophyshelf-librarian.vercel.app`;
+3. The app's default `LIBRARIAN_API_URL` is `https://trophy-shelf-ai-lib-assistant.vercel.app`;
    change it in the app's `src/config.ts` if your Vercel URL differs.
